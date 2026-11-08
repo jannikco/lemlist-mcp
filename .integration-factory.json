@@ -1,0 +1,267 @@
+{
+  "schemaVersion": 1,
+  "id": "lemlist-mcp",
+  "kind": "provider-connector",
+  "artifactType": "connector",
+  "qualityVersion": 2,
+  "title": "lemlist MCP server",
+  "description": "Review campaigns and explicitly create a campaign with automatic lead review disabled.",
+  "status": "ready",
+  "verification": "mock-only",
+  "releaseEligible": true,
+  "maintainer": "jannikco",
+  "license": "MIT",
+  "product": "pipmcp",
+  "appSlug": "lemlist",
+  "appName": "lemlist",
+  "operationIds": [
+    "lemlist_list_campaigns",
+    "lemlist_create_campaign"
+  ],
+  "sourceRevision": "557cd54f71b64d34847d919b2b285104d70692441c3ceec9b5246ffdd9fc27a8",
+  "evidence": [
+    "Actual tools/call and direct-provider request contract tests"
+  ],
+  "provenance": [
+    "https://developer.lemlist.com/api-reference/openapi/v2.json"
+  ],
+  "attributionSlug": "github-lemlist-mcp",
+  "connectorId": "lemlist",
+  "connector": {
+    "id": "lemlist",
+    "name": "lemlist",
+    "version": "0.1.0",
+    "baseUrl": "https://api.lemlist.com/api",
+    "auth": {
+      "type": "header",
+      "env": "LEMLIST_BASIC_AUTH",
+      "header": "Authorization",
+      "prefix": "Basic "
+    },
+    "tools": [
+      {
+        "name": "lemlist_list_campaigns",
+        "description": "Read a bounded page of campaigns.",
+        "method": "GET",
+        "path": "/campaigns",
+        "readOnly": true,
+        "approvalRequired": false,
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            },
+            "offset": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        },
+        "bindings": {
+          "path": [],
+          "query": {
+            "limit": "limit",
+            "offset": "offset"
+          },
+          "body": {}
+        },
+        "sampleArguments": {
+          "limit": 10
+        },
+        "evidence": {
+          "state": "documented",
+          "providerLiveValidation": "not-run"
+        },
+        "provenance": [
+          "https://developer.lemlist.com/api-reference/openapi/v2.json"
+        ]
+      },
+      {
+        "name": "lemlist_create_campaign",
+        "description": "Create a campaign with autoReview:false; no lead launch tool is exposed.",
+        "method": "POST",
+        "path": "/campaigns",
+        "readOnly": false,
+        "approvalRequired": true,
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "name"
+          ],
+          "additionalProperties": false
+        },
+        "bindings": {
+          "path": [],
+          "query": {},
+          "body": {
+            "name": "name"
+          }
+        },
+        "sampleArguments": {
+          "name": "Sandbox draft campaign"
+        },
+        "evidence": {
+          "state": "documented",
+          "providerLiveValidation": "not-run"
+        },
+        "body": {
+          "autoReview": false
+        },
+        "provenance": [
+          "https://developer.lemlist.com/api-reference/openapi/v2.json"
+        ]
+      }
+    ],
+    "workflow": {
+      "name": "lemlist authorized workflow",
+      "description": "Review campaigns and explicitly create a campaign with automatic lead review disabled.",
+      "steps": [
+        "lemlist_list_campaigns",
+        "lemlist_create_campaign"
+      ]
+    },
+    "provenance": [
+      "https://developer.lemlist.com/api-reference/openapi/v2.json"
+    ],
+    "sourceEvidence": {
+      "state": "documented",
+      "providerLiveValidation": "not-run",
+      "checkedAt": "2026-11-08",
+      "operationCount": 2,
+      "kind": "official-reference",
+      "sha256": "7aaf17372c08821493a0fe9a622dfd4500d95e36e2b30a3bbf03644804ddf14b",
+      "sources": [
+        {
+          "url": "https://developer.lemlist.com/api-reference/openapi/v2.json",
+          "sha256": "7aaf17372c08821493a0fe9a622dfd4500d95e36e2b30a3bbf03644804ddf14b",
+          "checkedAt": "2026-11-08T13:11:27.953063+00:00"
+        }
+      ]
+    },
+    "setup": {
+      "requiresPipMcpAccount": false,
+      "credentialsHelpUrl": "https://developer.lemlist.com/api-reference/openapi/v2.json",
+      "instructions": "LEMLIST_BASIC_AUTH is the base64 encoding of a colon followed by your API key (empty username, key as password); do not include the Basic prefix. Compute it locally without logging your key. The connector adds the Basic prefix. Campaign creation does not authorize adding or launching leads."
+    },
+    "sampleWarning": "Example IDs and email addresses are placeholders. Replace them with records and recipients you are authorized to access. Samples do not authorize writes. HTTP/fixture success does not prove provider execution or email delivery.",
+    "appSlug": "lemlist",
+    "repoId": "lemlist-mcp",
+    "product": "pipmcp",
+    "artifactType": "connector",
+    "sourceRevision": "557cd54f71b64d34847d919b2b285104d70692441c3ceec9b5246ffdd9fc27a8",
+    "capabilityEvidence": {
+      "local": {
+        "level": "Tested",
+        "operations": [
+          {
+            "name": "lemlist_list_campaigns",
+            "level": "Tested",
+            "evidenceRefs": [
+              "Provider request/stdio contract tests"
+            ],
+            "method": "contract-fixture"
+          },
+          {
+            "name": "lemlist_create_campaign",
+            "level": "Tested",
+            "evidenceRefs": [
+              "Provider request/stdio contract tests"
+            ],
+            "method": "contract-fixture"
+          }
+        ],
+        "evidenceRefs": [
+          "Provider request/stdio contract tests"
+        ],
+        "mode": "local"
+      },
+      "managed": {
+        "level": "Documented",
+        "operations": [
+          {
+            "name": "lemlist_list_campaigns",
+            "level": "Documented",
+            "evidenceRefs": [],
+            "method": "documentation"
+          },
+          {
+            "name": "lemlist_create_campaign",
+            "level": "Documented",
+            "evidenceRefs": [],
+            "method": "documentation"
+          }
+        ],
+        "evidenceRefs": [],
+        "mode": "managed"
+      }
+    },
+    "managedAvailability": {
+      "status": "listed",
+      "checkedAt": "2026-11-08T13:20:45.156456+00:00"
+    }
+  },
+  "capabilityEvidence": {
+    "local": {
+      "level": "Tested",
+      "operations": [
+        {
+          "name": "lemlist_list_campaigns",
+          "level": "Tested",
+          "evidenceRefs": [
+            "Provider request/stdio contract tests"
+          ],
+          "method": "contract-fixture"
+        },
+        {
+          "name": "lemlist_create_campaign",
+          "level": "Tested",
+          "evidenceRefs": [
+            "Provider request/stdio contract tests"
+          ],
+          "method": "contract-fixture"
+        }
+      ],
+      "evidenceRefs": [
+        "Provider request/stdio contract tests"
+      ],
+      "mode": "local"
+    },
+    "managed": {
+      "level": "Documented",
+      "operations": [
+        {
+          "name": "lemlist_list_campaigns",
+          "level": "Documented",
+          "evidenceRefs": [],
+          "method": "documentation"
+        },
+        {
+          "name": "lemlist_create_campaign",
+          "level": "Documented",
+          "evidenceRefs": [],
+          "method": "documentation"
+        }
+      ],
+      "evidenceRefs": [],
+      "mode": "managed"
+    }
+  },
+  "utility": {
+    "problem": "Review campaigns and explicitly create a campaign with automatic lead review disabled.",
+    "output": "Actual provider API results through local MCP tools"
+  },
+  "providerDocs": "https://developer.lemlist.com/api-reference/openapi/v2.json",
+  "factory": "leadadapter-pipmcp",
+  "generatorVersion": 2
+}
