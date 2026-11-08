@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "version": "1.0.0",
+  "product": "pipmcp",
+  "credential": "PIPMCP_API_KEY",
+  "skills": [
+    {
+      "name": "pipmcp-lemlist",
+      "description": "Connect AI agents to lemlist using one PipMCP API key and actual hosted tool discovery."
+    }
+  ],
+  "files": {
+    "skills/pipmcp-lemlist/SKILL.md": "0e775a958d7f89d4d55e5ed015724c021ed4c85bd5411ff702c7aa1251720d9f"
+  }
+}
